@@ -1,0 +1,139 @@
+[project]
+name = "photo-sorter"
+version = "0.0.1"
+description = "This project was created to help me sort and find similar pictures in my old external storage disk. In the end, automating a task takes less time than manual labour, right?"
+authors = [{ name = "Myrsini", email = "mirtoseri@gmail.com" }]
+readme = "README.md"
+keywords = ['python']
+requires-python = ">=3.10,<4.0"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "numpy>=2.0.0",
+    "opencv-python>=4.13.0.92",
+    "pillow>=11.0.0",
+    "pyyaml>=6.0.2",
+    "tqdm>=4.67.0",
+]
+
+[project.optional-dependencies]
+ml = [
+    "open-clip-torch>=2.32.0",
+    "torch>=2.2.0",
+    "ultralytics>=8.3.0",
+    "spandrel>=0.4.0",
+]
+gpu = [
+    "insightface>=0.7.3",
+    "onnxruntime-gpu>=1.20.0",
+    "rfdetr>=1.9.0",
+]
+search = [
+    "elasticsearch>=8.17.0",
+]
+
+[project.scripts]
+photo-sorter = "photo_sorter.cli:main"
+
+[project.urls]
+Homepage = "https://mirtia.github.io/photo-sorter/"
+Repository = "https://github.com/mirtia/photo-sorter"
+Documentation = "https://mirtia.github.io/photo-sorter/"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pre-commit>=4.5.0",
+    "tox-uv>=1.29.0",
+    
+    "mypy>=1.19.0",
+    
+    "ruff>=0.14.8",
+    
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/photo_sorter"]
+
+[tool.mypy]
+files = ["src"]
+disallow_untyped_defs = true
+disallow_any_unimported = false
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+warn_unused_ignores = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = ["cv2", "cv2.*", "ultralytics", "ultralytics.*", "open_clip", "open_clip.*", "torch", "torch.*", "spandrel", "spandrel.*", "elasticsearch", "elasticsearch.*", "insightface", "insightface.*", "onnxruntime", "onnxruntime.*", "rfdetr", "rfdetr.*", "yaml", "tqdm", "tqdm.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = [
+    # flake8-2020
+    "YTT",
+    # flake8-bandit
+    "S",
+    # flake8-bugbear
+    "B",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions
+    "C4",
+    # flake8-debugger
+    "T10",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # mccabe
+    "C90",
+    # pycodestyle
+    "E", "W",
+    # pyflakes
+    "F",
+    # pygrep-hooks
+    "PGH",
+    # pyupgrade
+    "UP",
+    # ruff
+    "RUF",
+    # tryceratops
+    "TRY",
+]
+ignore = [
+    # LineTooLong
+    "E501",
+    # DoNotAssignLambda
+    "E731",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.format]
+preview = true
+
+
